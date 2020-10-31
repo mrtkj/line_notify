@@ -9,6 +9,9 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello world\n")
+
+	token := os.Getenv("LINE_NOTIFY_TOKEN")
+	fmt.Println(token)
 }
 
 func main() {
