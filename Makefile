@@ -10,4 +10,4 @@ dev:
 release:
 	heroku container:push web
 	heroku container:release web
-    osascript -e 'display notification "Deploy Done" with title "Heroku Deploy" subtitle "My Go Server" sound name "Submarine"'
+	osascript -e 'display notification "Deploy Done" with title "Heroku Deploy" subtitle "My Go Server" sound name "Submarine"'
