@@ -2,21 +2,33 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"log"
 	"os"
-	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello world\n")
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds | log.Llongfile)
+}
 
+func handler(ctx *gin.Context) {
 	token := os.Getenv("LINE_NOTIFY_TOKEN")
 	fmt.Println(token)
+	ctx.JSON(200, "Hello world")
 }
 
 func main() {
-	port, _ := strconv.Atoi(os.Args[1])
-	fmt.Printf("Starting server at Port %d", port)
-	http.HandleFunc("/", handler)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	port := os.Getenv("PORT")
+
+	router := gin.Default()
+
+	router.GET("/", func(ctx *gin.Context) {
+		handler(ctx)
+	})
+
+	if err := router.Run(":" + port); err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Starting server at Port %s", port)
 }

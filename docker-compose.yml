@@ -1,0 +1,17 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: src/docker/Dockerfile
+    tty: true
+    command: make dev
+    volumes:
+      - ./:/src
+    environment:
+      TZ: Asia/Tokyo
+    working_dir: /src
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
