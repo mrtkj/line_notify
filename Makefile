@@ -5,8 +5,8 @@ GOARCH = amd64
 GOPATH = ${shell go env GOPATH}
 
 dev:
-	docker build -t line_notify .
-	docker run --env-file ./.env -p 3000:3000 -it --rm line_notify
+	docker-compose build --no-cache
+	docker-compose up -d
 
 heroku_login:
 	heroku login

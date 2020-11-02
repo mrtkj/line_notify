@@ -8,3 +8,16 @@ services:
     ports:
       - 3000:3000
     env_file: ./.env
+  db: # 起動コンテナを区別する名称。コンテナネットワーク上でのホスト名になる
+    image: postgres:12.4-alpine # ここでDockerHubから取得したいイメージ:タグを指定する
+    environment:
+      IMPORT_FROM_DIR: /scripts # db/sh/init.shで使う環境変数
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - 5432:5432 # ポート転送の設定 ... ホスト側ポート:コンテナ内ポート
+    volumes: # マウントの設定 ... ホスト側ディレクトリ:コンテナ側ディレクトリ
+      - ./db/sh:/docker-entrypoint-initdb.d # この中の.sh、.sqlファイルは自動実行される
+      - ./db/scripts:/scripts # db.dumpを配置する
+      # - ./src/db/storage:/var/lib/postgresql/data # データベースデータを永続化する
