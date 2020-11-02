@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/line_notify/src/client/line"
 )
 
 func init() {
@@ -13,8 +13,7 @@ func init() {
 }
 
 func handler(ctx *gin.Context) {
-	token := os.Getenv("LINE_NOTIFY_TOKEN")
-	fmt.Println(token)
+	line.SendMessage("test message")
 	ctx.JSON(200, "Hello world")
 }
 
