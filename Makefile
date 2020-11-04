@@ -8,6 +8,9 @@ dev:
 	docker-compose build --no-cache
 	docker-compose up -d
 
+test:
+	go test -v -parallel 1 ./... -count=1
+
 heroku_login:
 	heroku login
 	heroku container:login

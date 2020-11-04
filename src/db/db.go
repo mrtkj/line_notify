@@ -8,7 +8,7 @@ import (
 )
 
 type DBContext struct {
-	db *sql.DB
+	DB *sql.DB
 }
 
 type Config struct {
@@ -24,7 +24,7 @@ func NewDB(config Config) (*DBContext, error) {
 		fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			config.Host, config.Port, config.User, config.Password, config.Database))
 	d := &DBContext{
-		db: db,
+		DB: db,
 	}
 
 	return d, err

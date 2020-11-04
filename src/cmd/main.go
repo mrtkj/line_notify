@@ -86,6 +86,7 @@ func Register() *dig.Container {
 	provide(container, func(cfg *config.Config) line.Config { return cfg.GetLINEConfig() })
 	provide(container, db.NewDB)
 	provide(container, line.NewClient)
+	provide(container, repository.NewSchedulesRepository)
 	provide(container, repository.NewUsersRepository)
 	provide(container, service.NewScheduleService)
 	provide(container, controller.NewScheduleController)

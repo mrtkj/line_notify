@@ -21,8 +21,13 @@ type ScheduleController struct {
 	ss service.ScheduleService
 }
 
-func (s *ScheduleController) ExecSchedule(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
+func (s *ScheduleController) ExecSchedule(ctx *gin.Context) {
+	err := s.ss.ExecSchedule(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
 		"isSuccess": true,
 	})
 }

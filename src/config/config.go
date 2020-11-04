@@ -26,7 +26,7 @@ func (c *Config) GetDBConfig() db.Config {
 		Password: c.DB.Password,
 		Host:     c.DB.Host,
 		Port:     c.DB.Port,
-		Database: c.DB.Port,
+		Database: c.DB.Database,
 	}
 }
 
