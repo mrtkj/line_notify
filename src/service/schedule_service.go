@@ -38,15 +38,21 @@ func (s scheduleServiceImpl) ExecSchedule(ctx *gin.Context) error {
 
 	now := time.Now()
 	dt := now.Format("20060102")
+	today := fmt.Sprintf("%d/%d", int(now.Month()), now.Day())
 	schedules, err := s.scheduleRepository.GetSchedules(ctx, dt)
 
-	tasks := make([]string, 0, len(schedules))
-	for _, schedule := range schedules {
-		user := getUser(users, schedule.UserID)
-		tasks = append(tasks, fmt.Sprintf("%s: %s", user.Name, schedule.Task))
+	var msg string
+	if len(schedules) > 0 {
+		tasks := make([]string, 0, len(schedules))
+		for _, schedule := range schedules {
+			user := getUser(users, schedule.UserID)
+			tasks = append(tasks, fmt.Sprintf("%s: %s", user.Name, schedule.Task))
+		}
+		msg = fmt.Sprintf(constants.MessageTemplate,
+			today, strings.Join(tasks, "\n"))
+	} else {
+		msg = fmt.Sprintf(constants.NotScheduleTemplate, today)
 	}
-	msg := fmt.Sprintf(constants.MessageTemplate,
-		fmt.Sprintf("%d/%d", int(now.Month()), now.Day()), strings.Join(tasks, "\n"))
 	s.client.SendMessage(msg)
 
 	return nil
