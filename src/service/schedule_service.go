@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -39,12 +40,13 @@ func (s scheduleServiceImpl) ExecSchedule(ctx *gin.Context) error {
 	dt := now.Format("20060102")
 	schedules, err := s.scheduleRepository.GetSchedules(ctx, dt)
 
+	tasks := make([]string, 0, len(schedules))
 	for _, schedule := range schedules {
 		user := getUser(users, schedule.UserID)
-
-		msg := fmt.Sprintf(constants.MessageTemplate, user.Name, schedule.Task)
-		s.client.SendMessage(msg)
+		tasks = append(tasks, fmt.Sprintf("%s: %s", user.Name, schedule.Task))
 	}
+	msg := fmt.Sprintf(constants.MessageTemplate, strings.Join(tasks, "\n"))
+	s.client.SendMessage(msg)
 
 	return nil
 }
