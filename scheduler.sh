@@ -1,3 +1,3 @@
 #! /bin/sh
 
-curl "${APP_URL}"
+curl -X GET "${APP_URL}" -H "Authorization: Bearer ${ACCESS_TOKEN}"
