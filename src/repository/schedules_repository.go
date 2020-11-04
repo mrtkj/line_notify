@@ -28,7 +28,7 @@ func (u schedulesRepositoryImpl) GetSchedules(ctx context.Context, date string) 
 							FROM t_schedules
 							WHERE
 								execute_date = $1
-							ORDER BY id;`, date)
+							ORDER BY user_id, id;`, date)
 	if err != nil {
 		return nil, err
 	}
