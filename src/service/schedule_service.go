@@ -45,7 +45,8 @@ func (s scheduleServiceImpl) ExecSchedule(ctx *gin.Context) error {
 		user := getUser(users, schedule.UserID)
 		tasks = append(tasks, fmt.Sprintf("%s: %s", user.Name, schedule.Task))
 	}
-	msg := fmt.Sprintf(constants.MessageTemplate, strings.Join(tasks, "\n"))
+	msg := fmt.Sprintf(constants.MessageTemplate,
+		fmt.Sprintf("%d/%d", int(now.Month()), now.Day()), strings.Join(tasks, "\n"))
 	s.client.SendMessage(msg)
 
 	return nil
