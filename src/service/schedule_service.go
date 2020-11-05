@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -36,8 +37,9 @@ func (s scheduleServiceImpl) ExecSchedule(ctx *gin.Context) error {
 		return err
 	}
 
-	jst, _ := time.LoadLocation("Asia/Tokyo")
-	now := time.Now().In(jst)
+	time.Local = time.FixedZone("Local", 9*60*60)
+	now := time.Now()
+	log.Println(now)
 	dt := now.Format("20060102")
 	today := fmt.Sprintf("%d/%d", int(now.Month()), now.Day())
 	schedules, err := s.scheduleRepository.GetSchedules(ctx, dt)
