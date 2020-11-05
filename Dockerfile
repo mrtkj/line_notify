@@ -11,6 +11,9 @@ RUN go build ./src/cmd/main.go
 FROM alpine
 RUN apk update
 RUN apk add curl
+RUN apk --no-cache add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    apk del tzdata
 COPY --from=builder /go/src/github.com/line_notify /app
 
 CMD /app/main $PORT
